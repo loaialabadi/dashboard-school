@@ -33,3 +33,5 @@ Route::resource('teachers', TeacherController::class);
 Route::resource('students', StudentController::class);
 
 require __DIR__.'/auth.php';
+require __DIR__.'/api.php';
+
