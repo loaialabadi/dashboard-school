@@ -1,29 +1,31 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable; // استخدم Authenticatable للمصادقة
+use Laravel\Sanctum\HasApiTokens;
 
-class Student extends Model
-{    use HasFactory;
-
- // app/Models/Student.php
-protected $fillable = ['name', 'phone', 'teacher_id', 'parent_id'];
-
-
-public function teacher()
+class Student extends Authenticatable
 {
-    return $this->belongsTo(Teacher::class);
-}
+    use HasApiTokens, HasFactory;
 
-public function parent()
-{
-    return $this->belongsTo(ParentModel::class, 'parent_id');
-}
+    protected $fillable = ['name', 'phone', 'password', 'teacher_id', 'parent_id'];
+
+    protected $hidden = ['password'];
+
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(ParentModel::class, 'parent_id');
+    }
 
     public function subjects()
     {
         return $this->belongsToMany(Subject::class);
     }
-
 }
