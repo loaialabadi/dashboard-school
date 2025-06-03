@@ -1,47 +1,59 @@
-
 @extends('layouts.index')
 
 @section('content')
 <div class="container">
-<h2>قائمة الطلاب الخاصة بـ </h2>
+    <h2>
+        <i class="fas fa-users"></i> قائمة الطلاب
+        @if(isset($teacherName))
+            الخاصة بـ <span class="text-primary">{{ $teacherName }}</span>
+        @endif
+    </h2>
 
-    <a href="{{ route('students.create') }}" class="btn btn-success mb-3">إضافة طالب</a>
+    <a href="{{ route('students.create') }}" class="btn btn-success mb-3">
+        <i class="fas fa-user-plus"></i> إضافة طالب
+    </a>
 
-    <table class="table table-bordered">
-        <thead>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
             <tr>
-                <th>الاسم</th>
-                <th>المعلم</th>
-                <th>المادة</th>
-                <th>ولي الأمر</th>
-                <th>  رقم ولي الأمر</th>
-                
-                <th> حذف الطالب</th>
+                <th><i class="fas fa-user"></i> الاسم</th>
+                <th><i class="fas fa-chalkboard-teacher"></i> المعلم</th>
+                <th><i class="fas fa-book"></i> المادة</th>
+                <th><i class="fas fa-user-friends"></i> ولي الأمر</th>
+                <th><i class="fas fa-phone"></i> رقم ولي الأمر</th>
+                <th><i class="fas fa-trash-alt"></i> حذف الطالب</th>
+                <th>ملخص الحضور الشهري</th>
 
             </tr>
         </thead>
-        <tbody>
-            @foreach($students as $student)
-                <tr>
-                    <td>{{ $student->name }}</td>
-                    <td>{{ $student->teacher->name }}</td>
-                    <td>{{ $student->teacher->subject->name }}</td>
-                    <td>{{ $student->parent->name }}</td>
-                    <td>{{ $student->parent->phone }}</td>
+<tbody>
+    @foreach($students as $student)
+        <tr>
+            <td>{{ $student->name }}</td>
+            <td>{{ $student->teacher->name }}</td>
+            <td>{{ $student->teacher->subject->name }}</td>
+            <td>{{ $student->parent->name }}</td>
+            <td>{{ $student->parent->phone }}</td>
+            <td>
+                <form action="{{ route('students.destroy', $student->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('هل أنت متأكد من حذف هذا الطالب؟');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i> حذف
+                    </button>
+                </form>
+            </td>
+            <td>
+                <a href="{{ route('attendance.monthly_summary', ['studentId' => $student->id, 'year' => 2025, 'month' => 6]) }}" class="btn btn-info btn-sm">
+                    ملخص حضور 6/2025
+                </a>
+            </td>
+        </tr>
+    @endforeach
+</tbody>
 
-                    <td>
-            <form action="{{ route('students.destroy', $student->id) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger">حذف</button>
-            </form>
-                    </td>
-                   
-
-                </tr>
-
-            @endforeach
-        </tbody>
     </table>
+    {{ $students->links() }}
+
 </div>
 @endsection

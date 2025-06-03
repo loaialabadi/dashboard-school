@@ -10,17 +10,25 @@ use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-   
-public function index(Request $request)
+public function index()
 {
-    $teacherId = $request->input('teacher_id'); // جلب teacher_id من الرابط
+    $students = Student::with('teacher.subject', 'parent')->paginate(10); // عرض 10 طلاب في كل صفحة
 
-    $students = Student::with('teacher', 'parent','subjects')
-                       ->where('teacher_id', $teacherId)
-                       ->get();
-
-    return view('students.index', compact('students', 'teacherId'));
+    return view('students.index', compact('students'));
 }
+
+
+
+// public function index(Request $request)
+// {
+//     $teacherId = $request->input('teacher_id'); // جلب teacher_id من الرابط
+
+//     $students = Student::with('teacher', 'parent','subjects')
+//                        ->where('teacher_id', $teacherId)
+//                        ->get();
+
+//     return view('students.index', compact('students', 'teacherId'));
+// }
 
     public function create()
     {

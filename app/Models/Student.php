@@ -28,4 +28,7 @@ class Student extends Authenticatable
     {
         return $this->belongsToMany(Subject::class);
     }
+
+    
 }
+
