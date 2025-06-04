@@ -94,6 +94,25 @@ public function destroy($id)
     }
 }
 
+public function update(Request $request, Student $student)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'phone' => 'required|string|max:255|unique:students,phone,' . $student->id,
+        'teacher_id' => 'required|exists:teachers,id',
+        'parent_id' => 'required|exists:parent_models,id',
+    ]);
+
+    $student->update([
+        'name' => $request->input('name'),
+        'phone' => $request->input('phone'),
+        'teacher_id' => $request->input('teacher_id'),
+        'parent_id' => $request->input('parent_id'),
+    ]);
+
+    return redirect()->route('students.index')->with('success', 'تم تحديث بيانات الطالب بنجاح.');
+}
+
 
 }
 

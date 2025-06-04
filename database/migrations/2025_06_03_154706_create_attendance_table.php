@@ -11,16 +11,15 @@ return new class extends Migration
      */
  public function up()
 {
-    Schema::create('attendance', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('class_id')->constrained('classes')->onDelete('cascade');
-        $table->foreignId('student_id')->constrained()->onDelete('cascade');
-        $table->enum('status', ['present', 'absent'])->default('absent');
-        $table->timestamp('attended_at')->nullable();
-        $table->timestamps();
+Schema::create('attendance', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('student_id')->constrained()->onDelete('cascade');
+    $table->foreignId('appointment_id')->constrained()->onDelete('cascade');
+    $table->enum('status', ['present', 'absent']);
+    $table->dateTime('attended_at');
+    $table->timestamps();
+});
 
-        $table->unique(['class_id', 'student_id']); // ضمان عدم تكرار حضور نفس الطالب لنفس الحصة
-    });
 }
 
 

@@ -64,6 +64,29 @@ Route::prefix('teachers/{teacher}')->group(function() {
     Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store'); // حفظ موعد جديد
 });
 
+
+
+
+Route::get('appointments/{appointment}/attendance', [AttendanceController::class, 'markAttendanceForm'])
+    ->name('attendance.mark');
+
+Route::post('appointments/{appointment}/attendance', [AttendanceController::class, 'saveAttendance'])
+    ->name('attendance.save');
+
+
+
+
+Route::prefix('appointments')->group(function () {
+    Route::get('/create', [AppointmentController::class, 'create'])->name('appointments.create');
+    Route::post('/store', [AppointmentController::class, 'store'])->name('appointments.store');
+    Route::get('/{teacherId}', [AppointmentController::class, 'index'])->name('appointments.index');
+});
+
+
+
+Route::get('/teachers/{teacher}/appointments', [TeacherController::class, 'showAppointments'])->name('teachers.appointments');
+// Route::get('/teachers/{teacher}/appointments', [AppointmentController::class, 'index'])->name('teachers.appointments');
+
 require __DIR__.'/auth.php';
 require __DIR__.'/api.php';
 

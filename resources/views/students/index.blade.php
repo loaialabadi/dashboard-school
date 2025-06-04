@@ -23,6 +23,8 @@
                 <th><i class="fas fa-phone"></i> رقم ولي الأمر</th>
                 <th><i class="fas fa-trash-alt"></i> حذف الطالب</th>
                 <th>ملخص الحضور الشهري</th>
+                <th><i class="fas fa-edit"></i> تعديل الطالب</th>
+
 
             </tr>
         </thead>
@@ -48,6 +50,13 @@
                     ملخص حضور 6/2025
                 </a>
             </td>
+
+            <td>
+    <a href="{{ route('students.edit', $student->id) }}" class="btn btn-warning btn-sm">
+        <i class="fas fa-edit"></i> تعديل
+    </a>
+</td>
+
         </tr>
     @endforeach
 </tbody>

@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Teacher;
 use App\Models\Subject;
 use Illuminate\Http\Request;
-
+use App\Models\Appointment;
 class TeacherController extends Controller
 {
     // عرض جميع المعلمين مع المادة الخاصة بهم
     public function index()
     {
+        
         $teachers = Teacher::with('subject')->get();
         return view('teachers.index', compact('teachers'));
     }
@@ -71,12 +72,30 @@ class TeacherController extends Controller
 
         return redirect()->route('teachers.index')->with('success', 'تم حذف المعلم بنجاح');
     }
+public function dashboard($id)
+{
+    $teacher = Teacher::with('students', 'appointments')->findOrFail($id);
 
-    // لوحة بيانات المعلم (لوحة تحكم خاصة)
-    public function dashboard($id)
-    {
-        $teacher = Teacher::with('students')->findOrFail($id);
+    // ترتيب حسب التاريخ ثم الوقت
+    $appointments = $teacher->appointments()
+                           ->orderBy('appointment_date')
+                           ->orderBy('appointment_time')
+                           ->get();
 
-        return view('teachers.dashboard', compact('teacher'));
-    }
+    return view('teachers.dashboard', compact('teacher', 'appointments'));
+}
+
+public function showAppointments($teacherId)
+{
+    // جلب المعلم مع الحصص والطلاب المرتبطين
+    $teacher = Teacher::with('appointments.student')->findOrFail($teacherId);
+
+    // جلب الحصص مع ترتيبها
+    $appointments = $teacher->appointments()->orderBy('appointment_date')->orderBy('appointment_time')->get();
+
+    // عرض الصفحة وتمرير البيانات
+    return view('teachers.appointments', compact('teacher', 'appointments'));
+}
+
+
 }

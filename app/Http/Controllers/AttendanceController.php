@@ -8,73 +8,45 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Notifications\AttendanceNotification;
+
+use App\Models\Appointment;
+
 class AttendanceController extends Controller
 {
-    public function showClassAttendance($classId)
+    // صفحة عرض الطلاب للحصة مع اختيار الحضور والغياب
+    public function markAttendanceForm(Appointment $appointment)
     {
-        $class = ClassModel::with('teacher', 'subject')->findOrFail($classId);
-        // جلب كل طلاب المدرس أو طلاب مرتبطين بالحصة
-        $students = Student::where('teacher_id', $class->teacher_id)->get();
+        $students = $appointment->teacher->students;
 
-        // جلب الحضور السابق إن وجد
-        $attendanceRecords = Attendance::where('class_id', $classId)->get()->keyBy('student_id');
+        // استدعاء الحضور السابق إذا موجود (تعديل)
+        $attendances = Attendance::where('appointment_id', $appointment->id)
+                        ->get()->keyBy('student_id');
 
-        return view('attendance.class_attendance', compact('class', 'students', 'attendanceRecords'));
+        return view('attendance.mark', compact('appointment', 'students', 'attendances'));
     }
 
-    public function storeAttendance(Request $request, $classId)
+    // حفظ الحضور
+    public function saveAttendance(Request $request, Appointment $appointment)
     {
-        $class = ClassModel::findOrFail($classId);
+        $request->validate([
+            'attendance' => 'required|array',
+            'attendance.*' => 'in:present,absent',
+        ]);
 
-        $data = $request->input('attendance', []); // array: student_id => status
-
-        foreach ($data as $studentId => $status) {
+        foreach ($request->attendance as $studentId => $status) {
             Attendance::updateOrCreate(
-                ['class_id' => $classId, 'student_id' => $studentId],
+                [
+                    'student_id' => $studentId,
+                    'appointment_id' => $appointment->id,
+                ],
                 [
                     'status' => $status,
-                    'attended_at' => $status == 'present' ? Carbon::now() : null,
+                    'attended_at' => $appointment->scheduled_at,
                 ]
             );
-
-            // إرسال إشعار للولي
-            $student = Student::find($studentId);
-            if ($student && $student->parent && $status == 'present') {
-                $student->parent->notify(new AttendanceNotification($student, $class));
-            }
         }
 
-        return redirect()->back()->with('success', 'تم تسجيل الحضور بنجاح');
+        return redirect()->route('appointments.index', $appointment->teacher->id)
+                         ->with('success', 'تم تسجيل الحضور بنجاح');
     }
-
-    
-public function studentMonthlySummary(Request $request, $studentId)
-{
-    // تحقق من وجود الطالب
-    $student = Student::findOrFail($studentId);
-
-    // اجلب السنة والشهر من الريكوست أو اعطِهم قيم افتراضية
-    $year = $request->input('year', date('Y'));
-    $month = $request->input('month', date('m'));
-
-    // بداية ونهاية الشهر
-$startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth()->startOfDay();
-$endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth()->endOfDay();
-
-    // الحصص المرتبطة بالطالب (عن طريق المعلم أو غيره حسب تصميمك)
-    // لنفترض أن لكل حصة جدول attendance يربط بين class_id و student_id مع status حضور أو غياب
-$attendances = Attendance::where('student_id', $studentId)
-    ->whereBetween('attended_at', [$startDate, $endDate])
-    ->get();
-
-
-    $totalSessions = $attendances->count();
-    $presentCount = $attendances->where('status', 'present')->count();
-    $absentCount = $attendances->where('status', 'absent')->count();
-
-    return view('attendance.monthly_summary', compact('student', 'year', 'month', 'totalSessions', 'presentCount', 'absentCount', 'attendances'));
-}
-
-
-
 }

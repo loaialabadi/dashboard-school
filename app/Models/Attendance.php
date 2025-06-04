@@ -20,4 +20,10 @@ class Attendance extends Model
     {
         return $this->belongsTo(ClassModel::class, 'class_id');
     }
+
+       public function appointment()
+    {
+        return $this->belongsTo(Appointment::class);
+    }
 }
+

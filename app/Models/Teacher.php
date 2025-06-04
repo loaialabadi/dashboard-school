@@ -28,5 +28,11 @@ protected static function booted()
     });
 }
 
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
+  
 
 }
