@@ -97,5 +97,13 @@ public function showAppointments($teacherId)
     return view('teachers.appointments', compact('teacher', 'appointments'));
 }
 
+public function showStudents($teacherId)
+{
+    // جلب المعلم مع الطلاب المرتبطين
+    $teacher = Teacher::with('students')->findOrFail($teacherId);
+
+    // إرسال البيانات إلى الـ view
+    return view('teachers.students', compact('teacher'));
+}
 
 }

@@ -87,6 +87,9 @@ Route::prefix('appointments')->group(function () {
 Route::get('/teachers/{teacher}/appointments', [TeacherController::class, 'showAppointments'])->name('teachers.appointments');
 // Route::get('/teachers/{teacher}/appointments', [AppointmentController::class, 'index'])->name('teachers.appointments');
 
+
+Route::get('/teachers/{teacher}/showstudents', [TeacherController::class, 'showStudents'])->name('teachers.showstudents');
+
 require __DIR__.'/auth.php';
 require __DIR__.'/api.php';
 
