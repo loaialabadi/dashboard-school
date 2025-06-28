@@ -23,6 +23,10 @@
             <i class="fas fa-plus"></i> إضافة حصة جديدة
         </a>
 
+        
+        <a href="{{ route('teachers.create_group', $teacher->id) }}" class="btn btn-success">
+            <i class="fas fa-users"></i> إنشاء مجموعة
+
         <a href="{{ route('appointments.index', $teacher->id) }}" class="btn btn-primary">
             <i class="fas fa-calendar-plus"></i> إنشاء جدول 6 شهور
         </a>
@@ -36,14 +40,24 @@
             <table class="table table-striped table-hover text-center">
                 <thead class="table-dark">
                     <tr>
-                        <th>📆 التاريخ والوقت</th>
+                        <th>📆 التاريخ</th>
+                        <th>⏰ الوقت</th>
+                        <th>📁 المجموعة</th>
                         <th>📝 إجراء</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($appointments as $appointment)
                         <tr>
-                            <td>{{ $appointment->scheduled_at ? $appointment->scheduled_at->format('Y-m-d H:i') : 'غير محدد' }}</td>
+                            <td>{{ $appointment->appointment_date }}</td>
+                            <td>{{ $appointment->appointment_time }}</td>
+                            <td>
+                                @if($appointment->group)
+                                    <span class="badge bg-info">{{ $appointment->group->name }}</span>
+                                @else
+                                    <span class="text-muted">بدون مجموعة</span>
+                                @endif
+                            </td>
                             <td>
                                 <a href="{{ route('attendance.mark', $appointment->id) }}" class="btn btn-sm btn-outline-primary">
                                     <i class="fas fa-check-circle"></i> تسجيل الحضور

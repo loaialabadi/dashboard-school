@@ -18,7 +18,26 @@
             <label> رقم الهاتف</label>
             <input type="number" name="phone" class="form-control" required>
         </div>
+        <div class="mb-3">
+            <label>الصف الدراسي</label>
+            <select name="grade" class="form-control" required>
+                <option value="أولى ابتدائي">أولى ابتدائي</option>
+                <option value="ثانية ابتدائي">ثانية ابتدائي</option>
+                <option value="ثالثة ابتدائي">ثالثة ابتدائي</option>
+                <option value="رابعة ابتدائي">رابعة ابتدائي</option>
+                <option value="خامسة ابتدائي">خامسة ابتدائي</option>
+                <option value="سادسة ابتدائي">سادسة ابتدائي</option>
+                <option value="أولى إعدادي">أولى إعدادي</option>
+                <option value="ثانية إعدادي">ثانية إعدادي</option>  
+                <option value="ثالثة إعدادي">ثالثة إعدادي</option>
+                <option value="أولى ثانوي">أولى ثانوي</option>  
+                <option value="ثانية ثانوي">ثانية ثانوي</option>
+                <option value="ثالثة ثانوي">ثالثة ثانوي</option>
+            </select>
+</div>
+</div>
 
+        {{-- اختيار الصف الدراسي --}}
         {{-- اختيار المعلم --}}
         <div class="mb-3">
             <label>اختر المعلم</label>

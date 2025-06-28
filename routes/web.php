@@ -90,6 +90,11 @@ Route::get('/teachers/{teacher}/appointments', [TeacherController::class, 'showA
 
 Route::get('/teachers/{teacher}/showstudents', [TeacherController::class, 'showStudents'])->name('teachers.showstudents');
 
+
+
+Route::get('/teachers/{teacher}/groups/create', [AppointmentController::class, 'createGroup'])->name('teachers.create_group');
+Route::post('/teachers/groups/store', [AppointmentController::class, 'storeGroup'])->name('teachers.store_group');
+
 require __DIR__.'/auth.php';
 require __DIR__.'/api.php';
 

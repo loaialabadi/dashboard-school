@@ -64,7 +64,8 @@ public function store(Request $request)
         'name' => $request->input('name'),
         'phone' => $request->input('phone'),
         'teacher_id' => $request->input('teacher_id'),
-        'parent_id' => $parent->id, // ربط الطالب بولي الأمر
+        'parent_id' => $parent->id,
+        'grade' => $request->input('grade', 'أولى ابتدائي'), // افتراضياً أولى ابتدائي
     ]);
 
 return back()->with('success', 'تم إضافة الطالب بنجاح');
