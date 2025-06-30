@@ -11,9 +11,9 @@ return new class extends Migration
      */
  public function up()
 {
-Schema::create('attendance', function (Blueprint $table) {
+Schema::create('attendances', function (Blueprint $table) {
     $table->id();
-    $table->foreignId('student_id')->constrained()->onDelete('cascade');
+$table->foreignId('appointment_id')->constrained('appointments')->onDelete('cascade');
     $table->foreignId('appointment_id')->constrained()->onDelete('cascade');
     $table->enum('status', ['present', 'absent']);
     $table->dateTime('attended_at');
@@ -28,6 +28,6 @@ Schema::create('attendance', function (Blueprint $table) {
      */
     public function down(): void
     {
-        Schema::dropIfExists('attendance');
+        Schema::dropIfExists('attendances');
     }
 };

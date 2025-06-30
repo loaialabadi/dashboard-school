@@ -17,7 +17,18 @@
         <div class="mb-3">
             <label> رقم الهاتف</label>
             <input type="number" name="phone" class="form-control" required>
-        </div>
+            
+    <div class="form-group">
+    <label for="academic_stage">المرحلة الدراسية</label>
+    <select name="academic_stage" class="form-control" required>
+        @foreach ($stages as $stage)
+            <option value="{{ $stage }}" {{ old('academic_stage', $student->academic_stage ?? '') == $stage ? 'selected' : '' }}>
+                {{ $stage }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
 
         {{-- اختيار المعلم --}}
         <div class="mb-3">

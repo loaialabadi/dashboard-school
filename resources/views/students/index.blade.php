@@ -17,6 +17,8 @@
         <thead class="thead-dark">
             <tr>
                 <th><i class="fas fa-user"></i> الاسم</th>
+                <th><i class="fas fa-user"></i> المرحلة التعليميه</th>
+
                 <th><i class="fas fa-chalkboard-teacher"></i> المعلم</th>
                 <th><i class="fas fa-book"></i> المادة</th>
                 <th><i class="fas fa-user-friends"></i> ولي الأمر</th>
@@ -32,6 +34,8 @@
     @foreach($students as $student)
         <tr>
             <td>{{ $student->name }}</td>
+            <td>{{ $student->academic_stage }}</td>
+
             <td>{{ $student->teacher->name }}</td>
             <td>{{ $student->teacher->subject->name }}</td>
             <td>{{ $student->parent->name }}</td>
