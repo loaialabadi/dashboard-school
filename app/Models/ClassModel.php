@@ -23,4 +23,6 @@ class ClassModel extends Model
     {
         return $this->hasMany(Attendance::class, 'class_id');
     }
+
 }
+

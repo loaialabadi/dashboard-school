@@ -33,6 +33,11 @@ protected static function booted()
         return $this->hasMany(Appointment::class);
     }
 
-  
+  public function groups()
+{
+    return $this->hasMany(Group::class);
+}
+
+
 
 }

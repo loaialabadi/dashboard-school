@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    // قائمة المراحل الدراسية
     private $stages = [
         'الصف الأول الابتدائي',
         'الصف الثاني الابتدائي',
@@ -53,7 +52,6 @@ class StudentController extends Controller
             'academic_stage' => 'required|string|max:255',
         ]);
 
-        // إنشاء ولي أمر جديد إذا تم اختياره
         if ($request->input('createParentToggle') == '1') {
             $parent = ParentModel::create([
                 'name' => $request->input('parent_name'),
@@ -64,7 +62,6 @@ class StudentController extends Controller
             $parent = ParentModel::find($request->input('parent_id'));
         }
 
-        // إنشاء الطالب
         Student::create([
             'name' => $request->input('name'),
             'phone' => $request->input('phone'),

@@ -74,15 +74,17 @@ class TeacherController extends Controller
     }
 public function dashboard($id)
 {
-    $teacher = Teacher::with('students', 'appointments')->findOrFail($id);
+    $teacher = Teacher::with('students', 'appointments', 'groups')->findOrFail($id);
 
-    // ترتيب حسب التاريخ ثم الوقت
+    $group = $teacher->groups()->first(); // جلب أول مجموعة للمعلم
+    $groupId = $group ? $group->id : null;
+
     $appointments = $teacher->appointments()
                            ->orderBy('appointment_date')
                            ->orderBy('appointment_time')
                            ->get();
 
-    return view('teachers.dashboard', compact('teacher', 'appointments'));
+    return view('teachers.dashboard', compact('teacher', 'appointments', 'groupId'));
 }
 
 public function showAppointments($teacherId)
@@ -93,8 +95,10 @@ public function showAppointments($teacherId)
     // جلب الحصص مع ترتيبها
     $appointments = $teacher->appointments()->orderBy('appointment_date')->orderBy('appointment_time')->get();
 
+    $groupId = $groups->first()?->id;
+
     // عرض الصفحة وتمرير البيانات
-    return view('teachers.appointments', compact('teacher', 'appointments'));
+    return view('teachers.dashboard', compact('teacher', 'groups', 'groupId'));
 }
 
 public function showStudents($teacherId)
@@ -105,5 +109,6 @@ public function showStudents($teacherId)
     // إرسال البيانات إلى الـ view
     return view('teachers.students', compact('teacher'));
 }
+
 
 }

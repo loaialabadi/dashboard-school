@@ -1,7 +1,8 @@
 <?php
 namespace App\Models;
 use App\Notifications\AppointmentScheduled;
-
+use App\Models\Group;
+use App\Models\Teacher;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -21,4 +22,10 @@ protected $casts = [
     public function student() {
         return $this->belongsTo(Student::class);
     }
+
+    public function group()
+{
+    return $this->belongsTo(Group::class);
+}
+
 }

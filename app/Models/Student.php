@@ -29,6 +29,15 @@ class Student extends Authenticatable
         return $this->belongsToMany(Subject::class);
     }
 
-    
+        public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_student');
+    }
+
+
+public function appointments()
+{
+    return $this->hasMany(Appointment::class);
+}
 }
 
