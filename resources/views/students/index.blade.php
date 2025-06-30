@@ -24,7 +24,7 @@
                 <th><i class="fas fa-trash-alt"></i> حذف الطالب</th>
                 <th>ملخص الحضور الشهري</th>
                 <th><i class="fas fa-edit"></i> تعديل الطالب</th>
-
+<th>جدول الحصص والمجموعات</th>
 
             </tr>
         </thead>
@@ -55,6 +55,12 @@
     <a href="{{ route('students.edit', $student->id) }}" class="btn btn-warning btn-sm">
         <i class="fas fa-edit"></i> تعديل
     </a>
+    
+            </td>
+            <td>
+               <a href="{{ route('students.schedule-groups', $student->id) }}" class="btn btn-info">
+  {{ $student->name }}
+</a>
 </td>
 
         </tr>

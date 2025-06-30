@@ -113,7 +113,12 @@ public function update(Request $request, Student $student)
 
     return redirect()->route('students.index')->with('success', 'تم تحديث بيانات الطالب بنجاح.');
 }
+    public function scheduleAndGroups($studentId)
+    {
+        $student = Student::with(['groups', 'appointments'])->findOrFail($studentId);
 
+        return view('students.schedule-groups', compact('student'));
+    }
 
 }
 

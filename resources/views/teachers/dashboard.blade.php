@@ -11,28 +11,31 @@
             <i class="fas fa-user-plus"></i> إضافة طالب
         </a>
 
-        <a href="{{ route('teachers.appointments', $teacher->id) }}" class="btn btn-warning">
+        <!-- <a href="{{ route('teachers.appointments', $teacher->id) }}" class="btn btn-warning">
             <i class="fas fa-calendar-alt"></i> جدول الحصص
-        </a>
+        </a> -->
 
         <a href="{{ route('teachers.showstudents', ['teacher' => $teacher->id]) }}" class="btn btn-info">
             <i class="fas fa-users"></i> عرض طلاب المعلم
         </a>
 
-        <a href="{{ route('appointments.create', $teacher->id) }}" class="btn btn-secondary">
-            <i class="fas fa-plus"></i> إضافة حصة جديدة
-        </a>
 
-        
-        <a href="{{ route('teachers.create_group', $teacher->id) }}" class="btn btn-success">
-            <i class="fas fa-users"></i> إنشاء مجموعة
 
+<a href="{{ route('teachers.showgroups', $teacher->id) }}" class="btn btn-success">
+    <i class="fas fa-users"> عرض المجموعات</i>  
+</a>
+
+
+<a  href="{{ route('teachers.showattendance', $teacher->id) }}" class="btn btn-info">
+    <i class="fas fa-check-circle"></i> عرض الالفصور الدراسيه
+
+</a>
         <a href="{{ route('appointments.index', $teacher->id) }}" class="btn btn-primary">
             <i class="fas fa-calendar-plus"></i> إنشاء جدول 6 شهور
         </a>
 
     </div>
-
+<!-- 
     <h3 class="mb-3">📅 جدول الحصص</h3>
 
     @if($appointments->count())
@@ -70,7 +73,7 @@
         </div>
     @else
         <div class="alert alert-info text-center">لا توجد حصص مجدولة لهذا المعلم حتى الآن.</div>
-    @endif
+    @endif -->
 
 </div>
 @endsection

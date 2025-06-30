@@ -9,25 +9,23 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
- public function up()
-{
-Schema::create('attendance', function (Blueprint $table) {
-    $table->id();
+    public function up(): void
+    {
+        Schema::create('group_student', function (Blueprint $table) {
+     $table->id();
+    $table->foreignId('group_id')->constrained()->onDelete('cascade');
     $table->foreignId('student_id')->constrained()->onDelete('cascade');
-    $table->foreignId('appointment_id')->constrained()->onDelete('cascade');
-    $table->enum('status', ['present', 'absent']);
-    $table->dateTime('attended_at');
     $table->timestamps();
+
+    $table->unique(['group_id', 'student_id']); // نفس الطالب لا يتكرر داخل نفس المجموعة
 });
-
-}
-
+    }
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('attendance');
+        Schema::dropIfExists('group_student');
     }
 };

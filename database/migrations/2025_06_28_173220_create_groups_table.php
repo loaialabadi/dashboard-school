@@ -26,6 +26,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('groups');
+           // حذف الجداول المرتبطة أولا (لو في ميجريشن منفصلة)
+    Schema::dropIfExists('appointments');
+    Schema::dropIfExists('group_student');
+    Schema::dropIfExists('groups');
     }
 };

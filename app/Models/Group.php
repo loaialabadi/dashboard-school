@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Appointment;
-
+use App\Models\Teacher;
 class Group extends Model
 {
     protected $fillable = ['name', 'teacher_id'];
@@ -18,5 +18,13 @@ class Group extends Model
     {
         return $this->belongsTo(Teacher::class);
     }
+
+        public function students()
+    {
+        return $this->belongsToMany(Student::class, 'group_student');
+    }
+
+
+
 }
 
