@@ -60,12 +60,34 @@ Route::get('/', function () {
         Route::get('/attendance', [TeacherController::class, 'showAttendance'])->name('teachers.showattendance');
     });
 
+
+
     // تسجيل حضور الحصة
     Route::get('appointments/{appointment}/attendance', [AttendanceController::class, 'markAttendanceForm'])->name('attendance.mark');
     Route::post('appointments/{appointment}/attendance', [AttendanceController::class, 'saveAttendance'])->name('attendance.save');
 
     // صفحة جدول الحصص والمجموعات لطالب معين
     Route::get('/students/{student}/schedule-groups', [StudentController::class, 'scheduleAndGroups'])->name('students.schedule-groups');
+
+
+
+    Route::get('teachers/{teacher}/groups/{group}', [GroupController::class, 'show'])->name('groups.show');
+
+
+    // نموذج إضافة طالب جديد للمجموعة
+Route::get('teachers/{teacher}/groups/{group}/add-student', [GroupController::class, 'addStudentForm'])->name('groups.addStudentForm');
+
+// حفظ الطالب الجديد في المجموعة
+Route::post('teachers/{teacher}/groups/{group}/add-student', [GroupController::class, 'addStudentStore'])->name('groups.addStudentStore');
+
+// إنشاء حصة جديدة في مجموعة معينة (افترض أنك تملك هذا الراوت مسبقًا)
+Route::get('teachers/{teacher}/groups/{group}/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
+Route::post('teachers/{teacher}/groups/{group}/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+
+
+Route::get('teachers/{teacher}/groups/{sourceGroup}/transfer-students', [GroupController::class, 'showTransferForm'])->name('groups.transferForm');
+
+Route::post('teachers/{teacher}/groups/{sourceGroup}/transfer-students', [GroupController::class, 'transferStudents'])->name('groups.transferStudents');
 
 
 require __DIR__.'/auth.php';
